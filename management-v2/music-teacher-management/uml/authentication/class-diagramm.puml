@@ -1,0 +1,169 @@
+@startuml
+' Interfaces
+interface IAuthenticationDomain {
+    + signUp(registerUser: RegisterUser): void
+    + authenticate(loginUser: LoginUser): UserDetails
+}
+
+interface IUserJpaRepository {
+    + save(registerUser: RegisterUser): void
+    + findByEmail(email: String): UserDetails
+}
+
+interface IAuthenticationServiceMapper {
+    + mapRegisterToDomain(registerUserDto: RegisterUserDto): RegisterUser
+    + mapLoginToDomain(loginUserDto: LoginUserDto): LoginUser
+}
+
+interface IUserJpaRepositoryMapper {
+    + mapToEntity(registerUser: RegisterUser): User
+}
+
+interface PasswordEncoder {
+    ' Unnötige für Klassendiagramm
+}
+
+interface CrudRepository {
+    ' Unnötige für Klassendiagramm
+}
+
+interface UserDetails {
+    ' Unnötige für Klassendiagramm
+}
+
+
+' Controller
+class AuthenticationController {
+    - jwtService: JwtService
+    - domain: IAuthenticationDomain
+    - mapper: IAuthenticationServiceMapper
+    + AuthenticationController(jwtService: JwtService, domain: IAuthenticationDomain, mapper: IAuthenticationServiceMapper)
+    + register(registerUserDto: RegisterUserDto): void
+    + authenticate(loginUserDto: LoginUserDto): LoginResponseDto
+    + checkAuth(): String
+}
+
+' Domain
+class AuthenticationDomain {
+    - userJpaRepository: IUserJpaRepository
+    - authenticationManager: AuthenticationManager
+    + AuthenticationDomain(userJpaRepository: IUserJpaRepository, authenticationManager: AuthenticationManager)
+    + signUp(registerUser: RegisterUser): void
+    + authenticate(loginUser: LoginUser): UserDetails
+}
+
+' Repository
+class UserJpaRepository {
+    - userRepository: UserRepository
+    - passwordEncoder: PasswordEncoder
+    - mapper: IUserJpaRepositoryMapper
+    + UserJpaRepository(userRepository: UserRepository, passwordEncoder: PasswordEncoder, mapper: IUserJpaRepositoryMapper)
+    + save(registerUser: RegisterUser): void
+    + findByEmail(email: String): UserDetails
+}
+
+class UserRepository {
+    + findByEmail(email: String): Optional<User>
+}
+
+' Mapper
+class AuthenticationServiceMapper {
+    + mapRegisterToDomain(registerUserDto: RegisterUserDto): RegisterUser
+    + mapLoginToDomain(loginUserDto: LoginUserDto): LoginUser
+}
+
+class UserJpaJpaRepositoryMapper {
+    + mapToEntity(registerUser: RegisterUser): User
+}
+
+' Dtos
+class RegisterUserDto {
+    - email: String
+    - password: String
+    - fullName: String
+    + getEmail(): String
+    + setEmail(email: String): void
+    + getPassword(): String
+    + setPassword(password: String): void
+    + getFullName(): String
+    + setFullName(fullName: String): void
+}
+
+class LoginUserDto {
+    - email: String
+    - password: String
+    + getEmail(): String
+    + setEmail(email: String): void
+    + getPassword(): String
+    + setPassword(password: String): void
+}
+
+class LoginResponseDto {
+    - message: String
+    - token: String
+    - expiresIn: long
+    + LoginResponseDto(message: String)
+    + getToken(): String
+    + setToken(token: String): LoginResponseDto
+    + getExpiresIn(): long
+    + setExpiresIn(expiresIn: long): LoginResponseDto
+    + getMessage(): String
+    + setMessage(message: String): void
+}
+
+' Domain-Models
+class RegisterUser {
+    - email: String
+    - password: String
+    - fullName: String
+    + RegisterUser(email: String, password: String, fullName: String)
+    + getEmail(): String
+    + getPassword(): String
+    + getFullName(): String
+}
+
+class LoginUser {
+    - email: String
+    - password: String
+    + LoginUser(email: String, password: String)
+    + getEmail(): String
+    + getPassword(): String
+}
+
+' Database-Models
+class User {
+    - id: Integer
+    - fullName: String
+    - email: String
+    - password: String
+    - createdAt: Date
+    - updatedAt: Date
+    + getId(): Integer
+    + setId(id: Integer): User
+    + getPassword(): String
+    + setPassword(password: String): User
+    + getUsername(): String
+    + setUsername(username: String): User
+}
+
+' Beziehungen
+AuthenticationController --> IAuthenticationDomain
+AuthenticationController --> IAuthenticationServiceMapper
+AuthenticationController --> LoginResponseDto
+AuthenticationDomain --> IUserJpaRepository
+AuthenticationDomain -up-|> IAuthenticationDomain
+UserJpaRepository -up-|> IUserJpaRepository
+UserJpaRepository --> UserRepository
+UserJpaRepository --> PasswordEncoder
+UserJpaRepository --> IUserJpaRepositoryMapper
+UserRepository -up-|> CrudRepository
+AuthenticationServiceMapper -up-|> IAuthenticationServiceMapper
+UserJpaJpaRepositoryMapper -up-|> IUserJpaRepositoryMapper
+AuthenticationServiceMapper --> RegisterUser
+AuthenticationServiceMapper --> LoginUser
+AuthenticationServiceMapper --> RegisterUserDto
+AuthenticationServiceMapper --> LoginUserDto
+UserJpaJpaRepositoryMapper --> RegisterUser
+UserJpaJpaRepositoryMapper --> User
+User --> UserDetails
+@enduml

@@ -1,0 +1,5 @@
+.main-content {
+    background-image: url('/logo.png');
+    background-size: cover;
+    background-position: center;
+}

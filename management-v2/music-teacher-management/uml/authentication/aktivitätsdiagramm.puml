@@ -1,0 +1,5 @@
+@startuml
+' Wäre für authentication-feautre nicht sinnvoll, da es eher Prozesse darstellt.
+
+' Z.B. gut für ein feature registration
+@enduml

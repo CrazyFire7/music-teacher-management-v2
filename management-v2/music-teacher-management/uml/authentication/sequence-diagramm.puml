@@ -1,0 +1,19 @@
+@startuml
+actor Benutzer
+participant AuthenticationController
+participant AuthenticationServiceMapper
+participant AuthenticationDomain
+participant UserJpaRepository
+participant JwtService
+
+Benutzer -> AuthenticationController: sendet Logindaten
+AuthenticationController -> AuthenticationServiceMapper: mapLoginToDomain()
+AuthenticationServiceMapper --> AuthenticationController: LoginUser
+AuthenticationController -> AuthenticationDomain: authenticate(LoginUser)
+AuthenticationDomain -> UserJpaRepository: findByEmail()
+UserJpaRepository --> AuthenticationDomain: UserDetails
+AuthenticationDomain --> AuthenticationController: UserDetails
+AuthenticationController -> JwtService: generateToken(UserDetails)
+JwtService --> AuthenticationController: JWT-Token
+AuthenticationController --> Benutzer: LoginResponseDto (inkl. Token)
+@enduml
