@@ -1,0 +1,89 @@
+# Node.js / Next.js
+
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Next.js build output
+.next/
+out/
+
+# Next.js static files
+/static/
+
+# npm debug log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+yarn-error.log
+
+# MacOS
+.DS_Store
+
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Miscellaneous
+.env
+.env.*    # Catch-all for any environment-specific .env files
+
+# Spring Boot / Maven
+
+# Maven target directory
+target/
+
+# Ignore Maven POM backups and temporary files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Maven Wrapper
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse/IDE Specific
+
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+# Java specific (Eclipse/NetBeans)
+*.class
+# VS Code workspace specific settings
+.vscode/
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+out/
+
+# OS generated files (Windows/Unix)
+Thumbs.db
+.DS_Store
+
+# Audio and Video files
+*.mp3
+*.mp4
+*.wav
+*.avi
+*.mov
+*.wmv
+*.flv
+
+# Spring Boot Configuration files
+application.properties
+application.yml
